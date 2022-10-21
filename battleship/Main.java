@@ -9,44 +9,46 @@ public class Main {
         // Write your code here
 
         Battlefield battlefield = new Battlefield();
-        battlefield.printVisibleField();
+        battlefield.printField(battlefield.getVisibleField());
 
         int[][] coordinates = placeShip(battlefield, 5, "Aircraft Carrier");
         battlefield.updateVisibleField(coordinates);
         battlefield.updateActualField(coordinates);
-        battlefield.printVisibleField();
+        battlefield.printField(battlefield.getVisibleField());
 
         coordinates = placeShip(battlefield, 4, "Battleship");
         battlefield.updateVisibleField(coordinates);
         battlefield.updateActualField(coordinates);
-        battlefield.printVisibleField();
+        battlefield.printField(battlefield.getVisibleField());
 
         coordinates = placeShip(battlefield, 3, "Submarine");
         battlefield.updateVisibleField(coordinates);
         battlefield.updateActualField(coordinates);
-        battlefield.printVisibleField();
+        battlefield.printField(battlefield.getVisibleField());
 
         coordinates = placeShip(battlefield, 3, "Cruiser");
         battlefield.updateVisibleField(coordinates);
         battlefield.updateActualField(coordinates);
-        battlefield.printVisibleField();
+        battlefield.printField(battlefield.getVisibleField());
 
         coordinates = placeShip(battlefield, 2, "Destroyer");
         battlefield.updateVisibleField(coordinates);
         battlefield.updateActualField(coordinates);
-        battlefield.printVisibleField();
+        battlefield.printField(battlefield.getVisibleField());
 
 //      coordinates = getAndParseInput(freeCells, 2, "Destroyer");
         System.out.println("The game starts!");
-        battlefield.printVisibleField();
-
-        takeAShot(battlefield);
+        battlefield.printField(battlefield.getFogOfWarField());
+        int[] shotCoordinates = takeAShot(battlefield);
+        String message = battlefield.placeShot(shotCoordinates);
+        battlefield.printField(battlefield.getFogOfWarField());
+        System.out.println(message);
+        battlefield.printField(battlefield.getVisibleField());
     }
 
-    private static void takeAShot(Battlefield battlefield) {
+    private static int[] takeAShot(Battlefield battlefield) {
         String message = "Take a shot!";
         String wrongCoordinatesMessage = "Error! You entered the wrong coordinates! Try again:";
-
 
         System.out.println(message);
         String input = getInput();
@@ -59,10 +61,7 @@ public class Main {
             break;
         }
 
-        int[] coordinate = parseCoordinate(input);
-
-        String responseMessage = battlefield.placeShot(coordinate);
-        System.out.println(responseMessage);
+        return parseCoordinate(input);
     }
 
     public static boolean isInputInvalid(String coordinate) {
