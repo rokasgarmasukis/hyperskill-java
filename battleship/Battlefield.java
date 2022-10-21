@@ -7,6 +7,8 @@ public class Battlefield {
     private final char[][] visibleField;
     private final char[][] actualField;
 
+    private final char[][] fogOfWarField;
+
     Battlefield(){
         this.visibleField = new char[10][10];
 
@@ -16,10 +18,14 @@ public class Battlefield {
 
         this.actualField = new char[10][10];
 
-        for(char[] row : visibleField) {
+        for(char[] row : actualField) {
             Arrays.fill(row, '~');
         }
 
+        this.fogOfWarField = new char[10][10];
+        for(char[] row : fogOfWarField) {
+            Arrays.fill(row, '~');
+        }
     }
 
     char[][] getVisibleField() {
@@ -29,6 +35,8 @@ public class Battlefield {
     char[][] getActualField() {
         return this.actualField;
     }
+
+    char[][] getFogOfWarField() { return this.fogOfWarField; }
 
     void updateVisibleField(int[][] coordinates) {
         for (int row = coordinates[0][0]; row <= coordinates[1][0]; row++) {
@@ -62,7 +70,7 @@ public class Battlefield {
         return true;
     }
 
-    public void printVisibleField() {
+    public void printField(char[][] field) {
         char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
         int[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
@@ -72,10 +80,10 @@ public class Battlefield {
         }
         System.out.println();
 
-        for (int row = 0; row < visibleField.length; row++) {
+        for (int row = 0; row < field.length; row++) {
             System.out.print(letters[row] + " ");
-            for (int cell = 0; cell < visibleField[row].length; cell++) {
-                System.out.print(visibleField[row][cell] + " ");
+            for (int cell = 0; cell < field[row].length; cell++) {
+                System.out.print(field[row][cell] + " ");
             }
             System.out.println();
         }
@@ -87,13 +95,12 @@ public class Battlefield {
 
         if (visibleField[row][col] == 'O') {
             visibleField[row][col] = 'X';
-            printVisibleField();
+            fogOfWarField[row][col] = 'X';
             return "You hit a ship!";
         } else {
             visibleField[row][col] = 'M';
-            printVisibleField();
+            fogOfWarField[row][col] = 'M';
             return "You missed!";
         }
     }
-
 }
