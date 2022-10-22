@@ -46,16 +46,16 @@ public class Battlefield {
         }
     }
 
-    public void updateActualField(int[][] coordinates) {
+    public void updateActualField(int[][] c) {
         // protect against out of bounds error
-        if (coordinates[0][0] == 0) coordinates[0][0]++;
-        if (coordinates[0][1] == 0) coordinates[0][1]++;
-        if (coordinates[1][0] == 9) coordinates[1][0]--;
-        if (coordinates[1][1] == 9) coordinates[1][1]--;
+        if (c[0][0] == 0) c[0][0]++;
+        if (c[0][1] == 0) c[0][1]++;
+        if (c[1][0] == 9) c[1][0]--;
+        if (c[1][1] == 9) c[1][1]--;
 
         // padding ship location by 1 in all directions
-        for (int row = coordinates[0][0] - 1; row <= coordinates[1][0] + 1; row++) {
-            for (int column = coordinates[0][1] - 1; column <= coordinates[1][1] + 1; column++) {
+        for (int row = c[0][0] - 1; row <= c[1][0] + 1; row++) {
+            for (int column = c[0][1] - 1; column <= c[1][1] + 1; column++) {
                 actualField[row][column] = 'O';
             }
         }
@@ -89,18 +89,16 @@ public class Battlefield {
         }
     }
 
-    public String placeShot(int[] coordinate) {
+    public void placeShot(int[] coordinate) {
         int row = coordinate[0];
         int col = coordinate[1];
 
-        if (visibleField[row][col] == 'O') {
+        if (visibleField[row][col] == 'O' || visibleField[row][col] == 'X') {
             visibleField[row][col] = 'X';
             fogOfWarField[row][col] = 'X';
-            return "You hit a ship!";
         } else {
             visibleField[row][col] = 'M';
             fogOfWarField[row][col] = 'M';
-            return "You missed!";
         }
     }
 }
